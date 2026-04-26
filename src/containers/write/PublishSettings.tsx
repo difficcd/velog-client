@@ -4,12 +4,13 @@ import PublishURLSettingContainer from './PublishURLSettingContainer';
 import PublishSeriesSectionContainer from './PublishSeriesSectionContainer';
 import PublishActionButtonsContainer from './PublishActionButtonsContainer';
 import PublishCaptchaContainer from './PublishCaptchaContainer';
+import { TurnstileProvider } from '../../lib/hooks/useTurnstile';
 
 export interface PublishSettingsProps {}
 
-const PublishSettings: React.FC<PublishSettingsProps> = (props) => {
+const PublishSettings: React.FC<PublishSettingsProps> = () => {
   return (
-    <>
+    <TurnstileProvider>
       <div>
         <PublishPrivacySettingContainer />
         <PublishURLSettingContainer />
@@ -17,7 +18,7 @@ const PublishSettings: React.FC<PublishSettingsProps> = (props) => {
         <PublishCaptchaContainer />
       </div>
       <PublishActionButtonsContainer />
-    </>
+    </TurnstileProvider>
   );
 };
 

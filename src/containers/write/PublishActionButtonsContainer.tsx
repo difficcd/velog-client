@@ -17,7 +17,7 @@ import { setHeadingId } from '../../lib/heading';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { useUncachedApolloClient } from '../../lib/graphql/UncachedApolloContext';
-import useTurnstile from '../../lib/hooks/useTurnstile';
+import { useTurnstileContext } from '../../lib/hooks/useTurnstile';
 
 type PublishActionButtonsContainerProps = {};
 
@@ -26,10 +26,8 @@ const PublishActionButtonsContainer: React.FC<
 > = () => {
   const history = useHistory();
   const client = useApolloClient();
-  const user = useSelector((state: RootState) => state.core.user);
 
-  const isTurnstileEnabled = !!user && !user.is_trusted;
-  const { isLoading, token } = useTurnstile(isTurnstileEnabled);
+  const { isLoading, token } = useTurnstileContext();
 
   const options = useSelector((state: RootState) =>
     pick(

@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { sleep } from '../utils';
@@ -70,5 +77,30 @@ const useTurnstile = (isEnabled = true) => {
     isEnabled,
   };
 };
+
+type TurnstileContextValue = ReturnType<typeof useTurnstile>;
+
+const TurnstileContext = createContext<TurnstileContextValue | null>(null);
+
+export function TurnstileProvider({ children }: { children: React.ReactNode }) {
+  const user = useSelector((state: RootState) => state.core.user);
+  const isEnabled = !!user && !user.is_trusted;
+  const value = useTurnstile(isEnabled);
+  return (
+    <TurnstileContext.Provider value={value}>
+      {children}
+    </TurnstileContext.Provider>
+  );
+}
+
+export function useTurnstileContext() {
+  const value = useContext(TurnstileContext);
+  if (!value) {
+    throw new Error(
+      'useTurnstileContext must be used within a TurnstileProvider',
+    );
+  }
+  return value;
+}
 
 export default useTurnstile;

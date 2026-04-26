@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Spinner from '../../components/common/SpinnerBlock';
-import useTurnstile from '../../lib/hooks/useTurnstile';
+import { useTurnstileContext } from '../../lib/hooks/useTurnstile';
 
 const PublishCapchaBlock = styled.section`
   margin-top: 1.5rem;
@@ -27,7 +27,7 @@ const SpinnerBlock = styled(PublishCapchaBlock)`
 interface PublishCaptchaProps {}
 
 const PublishCaptcha: React.FC<PublishCaptchaProps> = () => {
-  const { isReady } = useTurnstile();
+  const { isReady } = useTurnstileContext();
 
   if (!isReady) {
     return (
